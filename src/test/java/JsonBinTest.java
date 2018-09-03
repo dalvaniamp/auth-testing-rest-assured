@@ -15,23 +15,19 @@ import org.junit.runners.MethodSorters;
  
 @RunWith(Parameterized.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public final class JsonBinTest extends BaseTest{ 
+public final class JsonBinTest extends BaseTest{ 		
 	private static String _binId;
 	
 	@Parameter(value = 0)
-	public static String _apiKey;
+	public static String apiKey;
 	
 	@Parameter(value = 1)
-	public static int _expectedStatusCode;
+	public static int expectedStatusCode;
 		
 	@BeforeClass
-	public static void setUp()
+	public static void createBin()
 	{	
-		RestAssured.baseURI = BASE_URL;
-		RequestSpecification request = RestAssured.given();
-		request.header("Content-Type", "application/json");
-		request.header("secret-key", Constants.VALID_API_KEY);				
-		request.body( Constants.getCreateJson().toString());		
+		RequestSpecification request = getRequest(Constants.VALID_API_KEY,Constants.getCreateJson());
 		Response response = request.post();
 		_binId = response.path("id");
 	}	
@@ -48,39 +44,30 @@ public final class JsonBinTest extends BaseTest{
 	      });
 	   }
 	
-	/* Tests should have the "testn" prefix to execute in a specific order */
-	/* Otherwise, the Delete test could execute before other tests */
+	/* Tests should have the 'testn' prefix to execute in a specific order */
+	/* Otherwise, the Delete test could execute before other tests, and status 404 would be returned */
 	
 	@Test
 	public void test1GetBin()
 	{		
-		RestAssured.baseURI = BASE_URL;
-		RequestSpecification request = RestAssured.given();
-		request.header("secret-key", _apiKey);
+		RequestSpecification request = getRequest(apiKey);
 		Response response = request.get(_binId);	
-		Assert.assertEquals(_expectedStatusCode, response.statusCode());	
+		Assert.assertEquals(expectedStatusCode, response.statusCode());	
 	}	
 	
 	@Test
 	public void test2UpdateBin()
 	{		
-		RestAssured.baseURI = BASE_URL;
-		RequestSpecification request = RestAssured.given();
-		request.header("secret-key", _apiKey);
-		request.header("Content-Type", "application/json");
-		request.body( Constants.getUpdateJson().toString());
+		RequestSpecification request = getRequest(apiKey,Constants.getUpdateJson());
 		Response response = request.put(_binId);	
-		Assert.assertEquals(_expectedStatusCode, response.statusCode());	
-	}
+		Assert.assertEquals(expectedStatusCode, response.statusCode());	
+	}	
 	
 	@Test
 	public void test3DeleteBin()
 	{		
-		RestAssured.baseURI = BASE_URL;
-		RequestSpecification request = RestAssured.given();
-		request.header("secret-key", _apiKey);
+		RequestSpecification request = getRequest(apiKey);
 		Response response = request.delete(_binId);	
-		Assert.assertEquals(_expectedStatusCode, response.statusCode());	
-	}
-	
+		Assert.assertEquals(expectedStatusCode, response.statusCode());	
+	}	
 }
