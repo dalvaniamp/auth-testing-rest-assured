@@ -1,4 +1,4 @@
-Suite de testes utilizando a API <a href="https://jsonbin.io/">JSONBIN.io</a>, visando verificar a autenticação do usuário ao enviar requisições HTTP.
+Suite de testes utilizando a API <a href="https://jsonbin.io/">JSONBIN.io</a>, visando verificar a autenticação do usuário ao enviar requisições HTTP.</br>
 Os testes foram criados com <a href="https://github.com/rest-assured">REST Assured</a> e <a href="https://github.com/junit-team/junit4">JNUnit 4</a>, empregando parametrização.</br>
 </br>
 - Requisitos:</br>
@@ -6,7 +6,7 @@ Os testes foram criados com <a href="https://github.com/rest-assured">REST Assur
   - <a href="https://maven.apache.org/">Maven</a></br>
 </br>
 
-- Para rodar os testes, execute o seguinte comando: </br>
+- Para rodar os testes, abra o terminal na pasta raiz do projeto e execute o seguinte comando: </br>
 ```
 mvn test
 ```
